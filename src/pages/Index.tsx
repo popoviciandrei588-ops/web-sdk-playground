@@ -1,13 +1,36 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React, { useState } from 'react';
+import { MeshProvider } from '@/components/mesh/MeshProvider';
+import { MeshConnect } from '@/components/mesh/MeshConnect';
+import { AccountGrid } from '@/components/dashboard/AccountGrid';
+import { TransferInterface } from '@/components/dashboard/TransferInterface';
+import { Navigation } from '@/components/layout/Navigation';
 
 const Index = () => {
+  const [currentSection, setCurrentSection] = useState('connect');
+
+  const renderContent = () => {
+    switch (currentSection) {
+      case 'dashboard':
+        return <AccountGrid />;
+      case 'transfer':
+        return <TransferInterface />;
+      default:
+        return <MeshConnect />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <MeshProvider>
+      <div className="min-h-screen bg-background">
+        <Navigation 
+          currentSection={currentSection} 
+          onSectionChange={setCurrentSection} 
+        />
+        <main className="max-w-7xl mx-auto px-4 py-8">
+          {renderContent()}
+        </main>
       </div>
-    </div>
+    </MeshProvider>
   );
 };
 
